@@ -12,16 +12,25 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 firebase.firestore().enablePersistence();
 
+
 var firestore = firebase.firestore();
 
-const docRef = firestore.doc("samples/greetingData");
-const outputP = document.querySelector("#kek");
-const saveButton = document.querySelector("#saveButton");
-const textInput = document.querySelector("#greetingInput");
-const loadButton = document.querySelector("#loadButton");
+const loadUsernameButton = document.querySelector("#loadUsernameButton");
+const usernameInput = document.querySelector("#usernameInput");
+const dataInput = document.querySelector("#dataInput");
+const saveInputButton = document.querySelector("#saveInputButton");
+const loadDataButton = document.querySelector("#loadDataButton");
 
-saveButton.addEventListener("click", function() {
-	const textToSave= textInput.value;
+loadUsernameButton.addEventListener("click",function(){
+	username = usernameInput.value.toLowerCase();
+	docRef = firestore.doc("users/" + username);
+	console.log("Username: " + username);
+	console.log(docRef);
+})
+
+
+saveInputButton.addEventListener("click", function() {
+	const textToSave= dataInput.value;
 	console.log("I am going to save " + textToSave + " to the Firestore!");
 	docRef.set({
 		currentGreeting : textToSave
@@ -32,6 +41,7 @@ saveButton.addEventListener("click", function() {
 	});
 })
 
+/*
 loadButton.addEventListener("click", function() {
 	docRef.get().then(function (doc) {
 		if (doc && doc.exists){
@@ -43,5 +53,4 @@ loadButton.addEventListener("click", function() {
 		console.log("errorrrrr: " + error);
 	});
 })
-
-
+*/
