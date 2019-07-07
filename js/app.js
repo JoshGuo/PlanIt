@@ -18,29 +18,48 @@ const loadUsernameButton = document.querySelector("#loadUsernameButton");
 const usernameInput = document.querySelector("#usernameInput");
 const dataInput = document.querySelector("#dataInput");
 const saveInputButton = document.querySelector("#saveInputButton");
-const loadDataButton = document.querySelector("#loadDataButton");
 const dataList = document.querySelector("#dataList");
 
+function initializeData(){
+	docRef.collection("todoList").orderBy("dateSaved").get()
+	.then(function(querySnapshot){
+		querySnapshot.forEach(function(doc){
+			console.log(doc.data());
+			var eventNode = document.createTextNode(doc.get("eventName"));
+			var li = document.createElement("LI");
+			li.appendChild(eventNode);
+			dataList.appendChild(li);
+		});
+	});
+	
+}
+
 loadUsernameButton.addEventListener("click",function(){
-	username = usernameInput.value.toLowerCase();
+	username = "joshy"; // ******** only for testing purposes ///// usernameInput.value.toLowerCase();
 	docRef = firestore.doc("users/" + username);
 	console.log("Username: " + username);
-	console.log(docRef);
+	console.log("username loaded!");
+	initializeData();
+	usernameInput.style.display = "none";
+	loadUsernameButton.style.display = "none";
 })
 
 saveInputButton.addEventListener("click", function() {
 	const name = dataInput.value;
 	docRef.collection("todoList").add({
-		eventName : name
+		eventName : name,
+		dateSaved : new Date()
 	}).then(function() {
 		console.log("Status saved!");
+		initializeData();
 	}).catch(function (error) {
 		console.log("error " + error);
 	});
 })
 
+/*
 loadDataButton.addEventListener("click", function() {
-	/*docRef.get().then(function (doc) {
+	docRef.get().then(function (doc) {
 		if (doc.exists){
 			const myData = doc.data();
 			outputP.innerText = myData.currentGreeting;
@@ -49,5 +68,6 @@ loadDataButton.addEventListener("click", function() {
 	}).catch(function (error) {
 		console.log("errorrrrr: " + error);
 	});
-	*/
+	
 })
+*/
