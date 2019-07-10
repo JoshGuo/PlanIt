@@ -1,1 +1,13 @@
-
+@import url('https://fonts.googleapis.com/css?family=Comfortaa&display=swap');
+body {
+	font-family: 'Comfortaa', cursive;
+}
+button {
+	font-family: 'Comfortaa', cursive;
+}
+.new-item-menu {
+	display: none;
+}
+#addItem {
+	display: none;
+}

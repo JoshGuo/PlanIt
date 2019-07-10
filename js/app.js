@@ -14,11 +14,12 @@ firebase.firestore().enablePersistence();
 
 var firestore = firebase.firestore();
 
-const loadUsernameButton = document.querySelector("#loadUsernameButton");
+const loadUsername = document.querySelector("#loadUsernameButton");
 const usernameInput = document.querySelector("#usernameInput");
-const dataInput = document.querySelector("#dataInput");
-const saveInputButton = document.querySelector("#saveInputButton");
-const dataList = document.querySelector("#dataList");
+const itemInput = document.querySelector("#dataInput");
+const saveItem = document.querySelector("#saveInputButton");
+const itemList = document.querySelector("#dataList");
+const newItem = document.querySelector("#addItem");
 
 function initializeData(){
 	docRef.collection("todoList").orderBy("dateSaved").get()
@@ -28,46 +29,44 @@ function initializeData(){
 			var eventNode = document.createTextNode(doc.get("eventName"));
 			var li = document.createElement("LI");
 			li.appendChild(eventNode);
-			dataList.appendChild(li);
+			itemList.appendChild(li);
 		});
+		console.log("Items Loaded");
+	}).catch(function (error) {
+		console.log("Error loading items: " + error);
 	});
-	
 }
 
-loadUsernameButton.addEventListener("click",function(){
+loadUsername.addEventListener("click",function(){
 	username = "joshy"; // ******** only for testing purposes ///// usernameInput.value.toLowerCase();
 	docRef = firestore.doc("users/" + username);
 	console.log("Username: " + username);
 	console.log("username loaded!");
 	initializeData();
+	//hide username input fields
 	usernameInput.style.display = "none";
-	loadUsernameButton.style.display = "none";
+	loadUsername.style.display = "none";
+	newItem.style.display = "block";
 })
 
-saveInputButton.addEventListener("click", function() {
-	const name = dataInput.value;
+saveItem.addEventListener("click", function() {
+	const name = itemInput.value;
 	docRef.collection("todoList").add({
 		eventName : name,
 		dateSaved : new Date()
 	}).then(function() {
 		console.log("Status saved!");
-		initializeData();
+		var li = document.createElement("LI");
+		li.appendChild(document.createTextNode(name));
+		itemList.appendChild(li);
 	}).catch(function (error) {
 		console.log("error " + error);
 	});
-})
-
-/*
-loadDataButton.addEventListener("click", function() {
-	docRef.get().then(function (doc) {
-		if (doc.exists){
-			const myData = doc.data();
-			outputP.innerText = myData.currentGreeting;
-			console.log("previous message loaded");
-		}
-	}).catch(function (error) {
-		console.log("errorrrrr: " + error);
-	});
+	//hide new item input fields
+	document.querySelector("#newItemMenu").style.display = "none";
 	
 })
-*/
+
+newItem.addEventListener("click",function() {
+	document.querySelector("#newItemMenu").style.display = "block" ;
+})
