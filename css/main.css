@@ -11,3 +11,6 @@ button {
 #addItem {
 	display: none;
 }
+.edit-item{
+	display: none;
+}

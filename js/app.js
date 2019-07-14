@@ -21,14 +21,15 @@ const saveItem = document.querySelector("#saveInputButton");
 const itemList = document.querySelector("#dataList");
 const newItem = document.querySelector("#addItem");
 
+//FUNCTIONS
+
 function initializeData(){
 	docRef.collection("todoList").orderBy("dateSaved").get()
 	.then(function(querySnapshot){
 		querySnapshot.forEach(function(doc){
 			console.log(doc.data());
-			var eventNode = document.createTextNode(doc.get("eventName"));
 			var li = document.createElement("LI");
-			li.appendChild(eventNode);
+			li.appendChild( createItemDiv( ( document.createTextNode( doc.get("eventName") ) ) ) );
 			itemList.appendChild(li);
 		});
 		console.log("Items Loaded");
@@ -36,6 +37,43 @@ function initializeData(){
 		console.log("Error loading items: " + error);
 	});
 }
+
+function createItemDiv(name){
+	var itemDiv = document.createElement("DIV");
+	itemDiv.className = "item";
+	
+	var editItemDiv = document.createElement("DIV");
+	var editName = document.createElement("INPUT");
+	var confirmEdit = document.createElement("BUTTON");
+	confirmEdit.innerHTML = "Save";
+	var deleteItem = document.createElement("BUTTON");
+	deleteItem.innerHTML = "Remove";
+	
+	///////////Save button and delete button need event listeners
+	
+	editItemDiv.className = "edit-item";
+	editItemDiv.appendChild(editName);
+	editItemDiv.appendChild(confirmEdit);
+	editItemDiv.appendChild(deleteItem);
+	
+	itemDiv.appendChild(name);
+	itemDiv.appendChild(editItemDiv);
+	
+	itemDiv.addEventListener("click" , function() {
+		editItemDiv.style.display = "block";
+		
+		itemDiv.addEventListener("mouseleave", function() {
+			editItemDiv.style.display = "none";
+		});
+	});
+/*	itemDiv.addEventListener("mouseleave", function() {
+		editItemDiv.style.display = "none";
+	});
+*/	
+	return itemDiv;
+}
+
+//EVENT LISTENERS
 
 loadUsername.addEventListener("click",function(){
 	username = "joshy"; // ******** only for testing purposes ///// usernameInput.value.toLowerCase();
@@ -51,13 +89,14 @@ loadUsername.addEventListener("click",function(){
 
 saveItem.addEventListener("click", function() {
 	const name = itemInput.value;
+	itemInput.value = '';
 	docRef.collection("todoList").add({
 		eventName : name,
 		dateSaved : new Date()
 	}).then(function() {
 		console.log("Status saved!");
 		var li = document.createElement("LI");
-		li.appendChild(document.createTextNode(name));
+		li.appendChild( createItemDiv(document.createTextNode(name)) );
 		itemList.appendChild(li);
 	}).catch(function (error) {
 		console.log("error " + error);
