@@ -29,7 +29,7 @@ function initializeData(){
 		querySnapshot.forEach(function(doc){
 			console.log(doc.data());
 			var li = document.createElement("LI");
-			li.appendChild( createItemDiv( ( document.createTextNode( doc.get("eventName") ) ) ) );
+			li.appendChild( createItemDiv((document.createTextNode(doc.get("eventName"))), doc.ref) );
 			itemList.appendChild(li);
 		});
 		console.log("Items Loaded");
@@ -38,7 +38,7 @@ function initializeData(){
 	});
 }
 
-function createItemDiv(name){
+function createItemDiv(name, itemRef){
 	var itemDiv = document.createElement("DIV");
 	itemDiv.className = "item";
 	
@@ -49,7 +49,7 @@ function createItemDiv(name){
 	var deleteItem = document.createElement("BUTTON");
 	deleteItem.innerHTML = "Remove";
 	
-	///////////Save button and delete button need event listeners
+	///////////Save button has no function
 	
 	editItemDiv.className = "edit-item";
 	editItemDiv.appendChild(editName);
@@ -61,22 +61,34 @@ function createItemDiv(name){
 	
 	itemDiv.addEventListener("click" , function() {
 		editItemDiv.style.display = "block";
-		
 		itemDiv.addEventListener("mouseleave", function() {
 			editItemDiv.style.display = "none";
 		});
 	});
-/*	itemDiv.addEventListener("mouseleave", function() {
-		editItemDiv.style.display = "none";
+	
+	deleteItem.addEventListener("click",function() {
+		console.log("Deleting " + itemRef.id + "...");
+		itemRef.delete()
+		.then(function () {
+			console.log(itemRef.id + " deleted");			
+			itemList.childNodes.forEach(function(li) {
+				if (li.querySelector("div") == itemDiv) {
+					console.log("Removing " + itemDiv);
+					itemList.removeChild(li);
+				}
+			});
+		}).catch(function (error) {
+			console.log("Error deleting data: " + error);
+		});
 	});
-*/	
+	
 	return itemDiv;
 }
 
 //EVENT LISTENERS
 
 loadUsername.addEventListener("click",function(){
-	username = "joshy"; // ******** only for testing purposes ///// usernameInput.value.toLowerCase();
+	username = usernameInput.value.toLowerCase();
 	docRef = firestore.doc("users/" + username);
 	console.log("Username: " + username);
 	console.log("username loaded!");
@@ -93,10 +105,10 @@ saveItem.addEventListener("click", function() {
 	docRef.collection("todoList").add({
 		eventName : name,
 		dateSaved : new Date()
-	}).then(function() {
-		console.log("Status saved!");
+	}).then(function(itemRef) {
+		console.log("Saved to the cloud! " + itemRef.id);
 		var li = document.createElement("LI");
-		li.appendChild( createItemDiv(document.createTextNode(name)) );
+		li.appendChild( createItemDiv(document.createTextNode(name), itemRef)); 
 		itemList.appendChild(li);
 	}).catch(function (error) {
 		console.log("error " + error);
