@@ -11,6 +11,9 @@ button {
 #addItem {
 	display: none;
 }
-.edit-item{
+.edit-menu{
+	display: none;
+}
+.edit-item-props {
 	display: none;
 }

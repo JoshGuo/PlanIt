@@ -43,29 +43,58 @@ function createItemDiv(name, itemRef){
 	itemDiv.className = "item";
 	
 	var editItemDiv = document.createElement("DIV");
-	var editName = document.createElement("INPUT");
-	var confirmEdit = document.createElement("BUTTON");
-	confirmEdit.innerHTML = "Save";
+	var editButton = document.createElement("BUTTON");
+	editButton.innerHTML = "Edit";
 	var deleteItem = document.createElement("BUTTON");
 	deleteItem.innerHTML = "Remove";
 	
-	///////////Save button has no function
+	var editItemPropertiesDiv = document.createElement("DIV");
+	var editName = document.createElement("INPUT");
+	editName.defaultValue = name.wholeText;
+	var saveButton = document.createElement("BUTTON");
+	saveButton.innerHTML = "Save";
 	
-	editItemDiv.className = "edit-item";
-	editItemDiv.appendChild(editName);
-	editItemDiv.appendChild(confirmEdit);
+	editItemPropertiesDiv.className = "edit-item-props";
+	editItemPropertiesDiv.style.display = "none";
+	editItemPropertiesDiv.appendChild(editName);
+	editItemPropertiesDiv.appendChild(saveButton);
+	
+	editItemDiv.className = "edit-menu";
+	editItemDiv.appendChild(editButton);
 	editItemDiv.appendChild(deleteItem);
-	
+
 	itemDiv.appendChild(name);
 	itemDiv.appendChild(editItemDiv);
+	itemDiv.appendChild(editItemPropertiesDiv);
 	
-	itemDiv.addEventListener("click" , function() {
-		editItemDiv.style.display = "block";
-		itemDiv.addEventListener("mouseleave", function() {
-			editItemDiv.style.display = "none";
-		});
+	editButton.addEventListener("click", function() {
+		editItemPropertiesDiv.style.display = "block";
+		editItemDiv.style.display = "none";
 	});
 	
+	//TO BE MODIFIED TO ACCOMODATE FOR MORE SETTINGS
+	saveButton.addEventListener("click", function() {
+		console.log(editName.value);
+		if(editName.value!= name.wholeText){
+			itemRef.update({
+				eventName : editName.value
+			});
+			itemDiv.replaceChild(document.createTextNode(editName.value), name);
+			console.log("Item editted");
+		}
+		editItemPropertiesDiv.style.display = "none";
+	});
+	
+	itemDiv.addEventListener("click" , function() {
+		if(editItemPropertiesDiv.style.display === "none"){
+			editItemDiv.style.display = "block";
+			itemDiv.addEventListener("mouseleave", function() {
+				editItemDiv.style.display = "none";
+			});
+		}
+	});
+	
+	//Deletes document reference and deletes matching list index
 	deleteItem.addEventListener("click",function() {
 		console.log("Deleting " + itemRef.id + "...");
 		itemRef.delete()
@@ -88,7 +117,8 @@ function createItemDiv(name, itemRef){
 //EVENT LISTENERS
 
 loadUsername.addEventListener("click",function(){
-	username = usernameInput.value.toLowerCase();
+	//////////////////************////////////////////
+	username = "joshy";//usernameInput.value.toLowerCase();
 	docRef = firestore.doc("users/" + username);
 	console.log("Username: " + username);
 	console.log("username loaded!");
@@ -121,3 +151,4 @@ saveItem.addEventListener("click", function() {
 newItem.addEventListener("click",function() {
 	document.querySelector("#newItemMenu").style.display = "block" ;
 })
+
