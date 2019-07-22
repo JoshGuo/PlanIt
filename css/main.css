@@ -11,9 +11,40 @@ button {
 #addItem {
 	display: none;
 }
+.container {
+	width: 1000px;
+}
 .edit-menu{
 	display: none;
 }
 .edit-item-props {
 	display: none;
+}
+.list-list-container {
+	display: inline-block;
+	vertical-align: top;
+	min-width: 25%;
+}
+.data-list-container {
+	display:inline-block;
+}
+.data-list {
+	list-style: none;
+	padding: 0;
+}
+.data-list li{
+	padding-bottom: 10px;
+}
+.item {
+	border-style: solid;
+	border-color: #5E5E5E;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-radius: 5px;
+	border-width: 1px;
+	padding: 5px;
+	min-width: 500px;
+}
+.edit-menu {
 }

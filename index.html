@@ -13,16 +13,27 @@
 	
 	<div class="container">
 	
-		<input type="textfield" id="usernameInput"/>
-		<button id="loadUsernameButton">Load Username</button>
-		<button id="addItem">Add New Item</button>
-		
-		<div class="new-item-menu" id="newItemMenu">
-			<input type="textfield" id="dataInput"/>
-			<button id="saveInputButton">Save Item</button>
+		<div class="login-container">
+			<input type="textfield" id="usernameInput"/>
+			<button id="loadUsernameButton">Load Username</button>
 		</div>
 		
-		<ul id="dataList"></ul>
+		<div class="list-list-container">
+			<ul>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
+		
+		<div class="data-list-container">
+			<button id="addItem">Add New Item</button>
+			<div class="new-item-menu" id="newItemMenu">
+				<input type="textfield" id="dataInput"/>
+				<button id="saveInputButton">Save Item</button>
+			</div>
+			<ul class="data-list" id="dataList"></ul>
+		</div>
 		
 	</div>
 

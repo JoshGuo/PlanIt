@@ -34,6 +34,7 @@ function initializeData(){
 		});
 		console.log("Items Loaded");
 	}).catch(function (error) {
+		alert("Error loading items: " + error);
 		console.log("Error loading items: " + error);
 	});
 }
@@ -122,7 +123,9 @@ loadUsername.addEventListener("click",function(){
 	docRef = firestore.doc("users/" + username);
 	console.log("Username: " + username);
 	console.log("username loaded!");
+	console.log("data");
 	initializeData();
+	console.log("data done!");
 	//hide username input fields
 	usernameInput.style.display = "none";
 	loadUsername.style.display = "none";
