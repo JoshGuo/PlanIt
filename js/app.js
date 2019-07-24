@@ -118,8 +118,15 @@ function createItemDiv(name, itemRef){
 
 loadUsername.addEventListener("click",function(){
 	//////////////////************////////////////////
-	username = "joshy";//usernameInput.value.toLowerCase();
+	if(usernameInput.value === '')
+		throw "Username field cannot be empty!";
+	username = usernameInput.value.toLowerCase();
 	docRef = firestore.doc("users/" + username);
+	docRef.get().then(function (docSnap){
+		if(!(docSnap.exists)){
+			alert("Creating new user for " + username);
+		}
+	});
 	console.log("Username: " + username);
 	console.log("username loaded!");
 	console.log("data");

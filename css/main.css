@@ -10,6 +10,7 @@ button {
 }
 .container {
 	width: 1000px;
+	margin-left: 2.5%;
 }
 .edit-menu{
 	display: none;
@@ -21,6 +22,7 @@ button {
 	display: none;
 	vertical-align: top;
 	min-width: 25%;
+	margin-top: 2.5%;
 }
 .data-list-container {
 	display: none;
