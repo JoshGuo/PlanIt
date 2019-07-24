@@ -75,12 +75,11 @@ function createItemDiv(name, itemRef){
 	
 	//TO BE MODIFIED TO ACCOMODATE FOR MORE SETTINGS
 	saveButton.addEventListener("click", function() {
-		console.log(editName.value);
 		if(editName.value!= name.wholeText){
 			itemRef.update({
 				eventName : editName.value
 			});
-			itemDiv.replaceChild(document.createTextNode(editName.value), name);
+			itemDiv.replaceChild(document.createTextNode(editName.value), itemDiv.childNodes[0]);
 			console.log("Item editted");
 		}
 		editItemPropertiesDiv.style.display = "none";
@@ -126,10 +125,10 @@ loadUsername.addEventListener("click",function(){
 	console.log("data");
 	initializeData();
 	console.log("data done!");
-	//hide username input fields
-	usernameInput.style.display = "none";
-	loadUsername.style.display = "none";
-	newItem.style.display = "block";
+
+	document.querySelector(".login-container").style.display = "none";
+	document.querySelector(".list-list-container").style.display = "inline-block";
+	document.querySelector(".data-list-container").style.display = "inline-block";
 })
 
 saveItem.addEventListener("click", function() {
