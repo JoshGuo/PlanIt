@@ -15,8 +15,6 @@ firebase.firestore().enablePersistence();
 var firestore = firebase.firestore();
 
 const loadUsername = document.querySelector("#loadUsernameButton");
-const usernameInput = document.querySelector("#usernameInput");
-const itemInput = document.querySelector("#dataInput");
 const saveItem = document.querySelector("#saveInputButton");
 const itemList = document.querySelector("#dataList");
 const newItem = document.querySelector("#addItem");
@@ -61,8 +59,8 @@ function createItemDiv(name, itemRef){
 	editItemPropertiesDiv.appendChild(saveButton);
 	
 	editItemDiv.className = "edit-menu";
-	editItemDiv.appendChild(editButton);
 	editItemDiv.appendChild(deleteItem);
+	editItemDiv.appendChild(editButton);
 
 	itemDiv.appendChild(name);
 	itemDiv.appendChild(editItemDiv);
@@ -118,8 +116,11 @@ function createItemDiv(name, itemRef){
 
 loadUsername.addEventListener("click",function(){
 	//////////////////************////////////////////
-	if(usernameInput.value === '')
+	var usernameInput = document.querySelector("#usernameInput");
+	if(usernameInput.value === ''){
+		alert("Username cannot be empty!");
 		throw "Username field cannot be empty!";
+	}
 	username = usernameInput.value.toLowerCase();
 	docRef = firestore.doc("users/" + username);
 	docRef.get().then(function (docSnap){
@@ -139,6 +140,7 @@ loadUsername.addEventListener("click",function(){
 })
 
 saveItem.addEventListener("click", function() {
+	var itemInput = document.querySelector("#dataInput");
 	const name = itemInput.value;
 	itemInput.value = '';
 	docRef.collection("todoList").add({

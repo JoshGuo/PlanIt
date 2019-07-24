@@ -9,7 +9,7 @@ button {
 	display: none;
 }
 .container {
-	width: 1000px;
+	width: 95%;
 	margin-left: 2.5%;
 }
 .edit-menu{
@@ -19,13 +19,20 @@ button {
 	display: none;
 }
 .list-list-container {
+	border-style: solid;
+	border-width: 1px;
 	display: none;
 	vertical-align: top;
 	min-width: 25%;
-	margin-top: 2.5%;
+	margin-top: 3%;
+	margin-right: 3%;
 }
 .data-list-container {
 	display: none;
+	border-style: solid;
+	border-width: 2px;
+	min-height: 700px;
+	min-width: 1000px;
 }
 .data-list {
 	list-style: none;
@@ -43,7 +50,6 @@ button {
 	border-radius: 5px;
 	border-width: 1px;
 	padding: 5px;
-	min-width: 500px;
 }
 .edit-menu {
 }
