@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-  <title>PlanIt</title>
+  <title>PlanIt - Home</title>
 	<link rel="stylesheet" href="css/main.css" type="text/css">
 	<link rel="icon" href="https://img.icons8.com/cotton/64/000000/checkmark.png">
 	
@@ -10,27 +10,23 @@
   </head>
   
   <body>
-	
 	<div class="container">
-	
-		<div class="login-container">
-			<input type="textfield" id="usernameInput"/>
-			<button id="loadUsernameButton">Load Username</button>
-		</div>
-		
-		<div class="list-list-container">
-			<h3>Plans</h3>
-			<ul>
-				<li></li>
-				<li></li>
-				<li></li>
-			</ul>
+		<div class="left-panel">
+			<p>Today is </p>
+			<br>
+			<button id="logoutButton">Logout</button>
+			<div class="list-list-container">
+				<h3>Plans</h3>
+				<ul>
+					<li></li>
+				</ul>
+			</div>
 		</div>
 		
 		<div class="data-list-container">
 			<button id="addItem">Add New Item</button>
 			<div class="new-item-menu" id="newItemMenu">
-				<input type="textfield" id="dataInput"/>
+				<input type="textfield" id="dataInput" size="50" maxlength="110"/>
 				<button id="saveInputButton">Save Item</button>
 				<button id="x">X</button>
 			</div>

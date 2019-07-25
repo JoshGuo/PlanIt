@@ -1,9 +1,20 @@
 @import url('https://fonts.googleapis.com/css?family=Comfortaa&display=swap');
 body {
 	font-family: 'Comfortaa', cursive;
+	font-size: 16px;
 }
 button {
 	font-family: 'Comfortaa', cursive;
+}
+.login-container {
+	margin: auto;
+	height: 600px;
+	width: 300px;
+	text-align: center;
+	padding: 200px;
+}
+.login-container input{
+	margin-right: 20px;
 }
 .new-item-menu {
 	display: none;
@@ -18,14 +29,19 @@ button {
 .edit-item-props {
 	display: none;
 }
+.left-panel {
+	display: none;
+	vertical-align: top;
+	width: 25%;
+	margin-top: 3%;
+	margin-right: 3%;
+}
+.left-panel p {
+	font-size: 20px;
+}
 .list-list-container {
 	border-style: solid;
 	border-width: 1px;
-	display: none;
-	vertical-align: top;
-	min-width: 25%;
-	margin-top: 3%;
-	margin-right: 3%;
 }
 .data-list-container {
 	display: none;
@@ -50,6 +66,9 @@ button {
 	border-radius: 5px;
 	border-width: 1px;
 	padding: 5px;
+}
+.item button {
+	margin-right: 3px;
 }
 .edit-menu {
 }

@@ -14,10 +14,34 @@ firebase.firestore().enablePersistence();
 
 var firestore = firebase.firestore();
 
-const loadUsername = document.querySelector("#loadUsernameButton");
 const saveItem = document.querySelector("#saveInputButton");
 const itemList = document.querySelector("#dataList");
 const newItem = document.querySelector("#addItem");
+const today = new Date();
+
+////////////////////////////////////////////
+//Initial Scripts
+if(localStorage.username === undefined){
+	console.log("no username... rerouting");
+	window.location.href = "login.html";
+}else {
+	docRef = firestore.doc("users/" + localStorage.username);
+	docRef.get().then(function (docSnap){
+		if(!(docSnap.exists)){
+			alert("Creating new user for " + localStorage.username);
+			docRef.set({
+			});
+		}
+	});
+	console.log("Username: " + localStorage.username);
+	console.log("Username loaded!");
+	initializeData();
+	console.log("Data Loaded!");
+	document.querySelector(".left-panel").style.display = "inline-block";
+	document.querySelector(".data-list-container").style.display = "inline-block";
+}
+document.querySelector("p").appendChild(document.createTextNode(getDay() + ", " + getMonth() + " " + today.getDate() ));
+/////////////////////////////////////////////////
 
 //FUNCTIONS
 
@@ -38,6 +62,7 @@ function initializeData(){
 }
 
 function createItemDiv(name, itemRef){
+	//needs to be modified in the future for the different types of lists
 	var itemDiv = document.createElement("DIV");
 	itemDiv.className = "item";
 	
@@ -112,33 +137,17 @@ function createItemDiv(name, itemRef){
 	return itemDiv;
 }
 
+function getDay(){
+	var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+	return days[today.getDay()];
+}
+
+function getMonth() {
+	var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	return months[today.getMonth()];
+}
+
 //EVENT LISTENERS
-
-loadUsername.addEventListener("click",function(){
-	//////////////////************////////////////////
-	var usernameInput = document.querySelector("#usernameInput");
-	if(usernameInput.value === ''){
-		alert("Username cannot be empty!");
-		throw "Username field cannot be empty!";
-	}
-	username = usernameInput.value.toLowerCase();
-	docRef = firestore.doc("users/" + username);
-	docRef.get().then(function (docSnap){
-		if(!(docSnap.exists)){
-			alert("Creating new user for " + username);
-		}
-	});
-	console.log("Username: " + username);
-	console.log("username loaded!");
-	console.log("data");
-	initializeData();
-	console.log("data done!");
-
-	document.querySelector(".login-container").style.display = "none";
-	document.querySelector(".list-list-container").style.display = "inline-block";
-	document.querySelector(".data-list-container").style.display = "inline-block";
-})
-
 saveItem.addEventListener("click", function() {
 	var itemInput = document.querySelector("#dataInput");
 	const name = itemInput.value;
@@ -167,4 +176,10 @@ document.querySelector("#x").addEventListener("click", function() {
 	document.querySelector("#dataInput").value = '';
 	document.querySelector("#newItemMenu").style.display = "none" ;
 })
+
+document.querySelector("#logoutButton").addEventListener("click", function() {
+	localStorage.removeItem("username");
+	window.location.href = "login.html";
+})
+
 
