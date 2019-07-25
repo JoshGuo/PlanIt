@@ -163,3 +163,8 @@ newItem.addEventListener("click",function() {
 	document.querySelector("#newItemMenu").style.display = "block" ;
 })
 
+document.querySelector("#x").addEventListener("click", function() {
+	document.querySelector("#dataInput").value = '';
+	document.querySelector("#newItemMenu").style.display = "none" ;
+})
+
