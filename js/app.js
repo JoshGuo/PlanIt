@@ -39,8 +39,8 @@ if(localStorage.username === undefined){
 	console.log("Data Loaded!");
 	document.querySelector(".left-panel").style.display = "inline-block";
 	document.querySelector(".data-list-container").style.display = "inline-block";
+	document.querySelector("p").appendChild(document.createTextNode(getDay() + ", " + getMonth() + " " + today.getDate() ));
 }
-document.querySelector("p").appendChild(document.createTextNode(getDay() + ", " + getMonth() + " " + today.getDate() ));
 /////////////////////////////////////////////////
 
 //FUNCTIONS
