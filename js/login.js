@@ -3,7 +3,7 @@ const usernameInput = document.querySelector("#usernameInput");
 
 loadUsername.addEventListener("click", function() {
 	console.log("clicked");
-	var user = usernameInput.value;
+	var user = usernameInput.value.toLowerCase();
 	if(user === ''){
 		alert("Username cannot be empty!");
 		throw "Username field cannot be empty!";

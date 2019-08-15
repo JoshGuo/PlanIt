@@ -10,9 +10,9 @@ var firebaseConfig = {
 	};
 		// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-firebase.firestore().enablePersistence();
 
 var firestore = firebase.firestore();
+var activeList = "todoList";
 
 const saveItem = document.querySelector("#saveInputButton");
 const itemList = document.querySelector("#dataList");
@@ -31,10 +31,11 @@ if(localStorage.username === undefined){
 			alert("Creating new user for " + localStorage.username);
 			docRef.set({
 			});
+			firestore.doc("users/" + localStorage.username + "/lists/todoList").set({
+			});
 		}
 	});
 	console.log("Username: " + localStorage.username);
-	console.log("Username loaded!");
 	initializeData();
 	console.log("Data Loaded!");
 	document.querySelector(".left-panel").style.display = "inline-block";
@@ -46,7 +47,8 @@ if(localStorage.username === undefined){
 //FUNCTIONS
 
 function initializeData(){
-	docRef.collection("todoList").orderBy("dateSaved").get()
+	//Loading items//
+	docRef.collection("lists/todoList/items").orderBy("dateSaved").get()
 	.then(function(querySnapshot){
 		querySnapshot.forEach(function(doc){
 			console.log(doc.data());
@@ -54,10 +56,23 @@ function initializeData(){
 			li.appendChild( createItemDiv((document.createTextNode(doc.get("eventName"))), doc.ref) );
 			itemList.appendChild(li);
 		});
+		document.querySelector("h2").appendChild(document.createTextNode(activeList));
 		console.log("Items Loaded");
 	}).catch(function (error) {
 		alert("Error loading items: " + error);
 		console.log("Error loading items: " + error);
+	});
+	//loading plans
+	docRef.collection("lists").get()
+	.then(function(querySnapshot) {
+		querySnapshot.forEach(function(doc) {
+			console.log(doc.id);
+			var li = document.createElement("LI");
+			li.appendChild( document.createTextNode(doc.id));
+			document.querySelector("#listul").appendChild(li);
+		});
+	}).catch(function(error){
+		console.log("Error loading plans: " + error);
 	});
 }
 
@@ -137,6 +152,10 @@ function createItemDiv(name, itemRef){
 	return itemDiv;
 }
 
+function createPlanDiv() {
+	
+}
+
 function getDay(){
 	var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 	return days[today.getDay()];
@@ -147,16 +166,17 @@ function getMonth() {
 	return months[today.getMonth()];
 }
 
-//EVENT LISTENERS
+//EVENT LISTENERS//////////////////////////////
+
 saveItem.addEventListener("click", function() {
 	var itemInput = document.querySelector("#dataInput");
 	const name = itemInput.value;
 	itemInput.value = '';
-	docRef.collection("todoList").add({
+	docRef.collection("lists/" + activeList + "/items").add({
 		eventName : name,
 		dateSaved : new Date()
 	}).then(function(itemRef) {
-		console.log("Saved to the cloud! " + itemRef.id);
+		console.log("Saved to " + activeList + "! " + itemRef.id);
 		var li = document.createElement("LI");
 		li.appendChild( createItemDiv(document.createTextNode(name), itemRef)); 
 		itemList.appendChild(li);
