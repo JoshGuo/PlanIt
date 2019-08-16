@@ -17,22 +17,33 @@
 			<button id="logoutButton">Logout</button>
 			<div class="list-list-container">
 				<h3>Plans</h3>
+				---------------------------------------------------------
+				<button id="newPlanButton">New Plan</button>
+				<div class="new-plan-menu">
+					<input type="radio" name="plantype" value="0"> Plan 1
+					<input type="radio" name="plantype" value="1"> Plan 2
+					<input type="radio" name="plantype" value="2"> Plan 3
+					<input type="radio" name="plantype" value="3"> Plan 4
+					<input type="radio" name="plantype" value="4"> Plan 5
+					<input type="textfield" id="planInput" size="42" maxlength="42" placeholder="Plan Name"/>
+					<button id="savePlanButton">OK</button>
+					<button id="planmenu-x">X</button>
+				</div>
 				<ul id="listul">
 				</ul>
 			</div>
 		</div>
 		
 		<div class="data-list-container">
-			<h2></h2>
-			<button id="addItem">Add New Item</button>
+			<h2></h2> 
+			<button id="addItem">Add New Item</button> <br>
 			<div class="new-item-menu" id="newItemMenu">
-				<input type="radio" name="items" value="0"> Regular
-				<input type="radio" name="items" value="1"> Dated
-				<input type="radio" name="items" value="2"> Counted
-				<input type="textfield" id="dataInput" size="50" maxlength="110"/>
+				<input type="radio" name="itemtype" value="0"> Item 1
+				<input type="radio" name="itemtype" value="1"> Item 2
+				<input type="radio" name="itemtype" value="2"> Item 3
+				<input type="textfield" id="dataInput" size="50" maxlength="110" placeholder="Item Name" />
 				<button id="saveInputButton">Save Item</button>
-				<button id="x">X</button>
-				
+				<button id="itemmenu-x">X</button>
 			</div>
 			<ul class="data-list" id="dataList"></ul>
 		</div>

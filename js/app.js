@@ -190,11 +190,10 @@ saveItem.addEventListener("click", function() {
 
 newItem.addEventListener("click",function() {
 	document.querySelector("#newItemMenu").style.display = "block" ;
-})
-
-document.querySelector("#x").addEventListener("click", function() {
-	document.querySelector("#dataInput").value = '';
-	document.querySelector("#newItemMenu").style.display = "none" ;
+	document.querySelector("#itemmenu-x").addEventListener("click", function() {
+		document.querySelector("#dataInput").value = '';
+		document.querySelector("#newItemMenu").style.display = "none" ;
+	})
 })
 
 document.querySelector("#logoutButton").addEventListener("click", function() {
@@ -202,4 +201,12 @@ document.querySelector("#logoutButton").addEventListener("click", function() {
 	window.location.href = "login.html";
 })
 
-
+document.querySelector("#newPlanButton").addEventListener("click", function() {
+	document.querySelector(".new-plan-menu").style.display = "block";
+	document.querySelector("#planmenu-x").addEventListener("click", function() {
+		document.querySelector("#dataInput").value = '';
+		document.querySelector(".new-plan-menu").style.display = "none" ;
+	})
+	//PLACE HOLDER FOR REAL FUNCTIONAL PLAN ADDING //
+	
+})
