@@ -9,6 +9,7 @@ button {
 input {
 	font-family: 'Comfortaa', cursive;
 }
+
 .login-container {
 	margin: auto;
 	height: 600px;
@@ -31,7 +32,7 @@ input {
 }
 .container {
 	width: 95%;
-	margin-left: 2.5%;
+	margin: auto;
 }
 .edit-menu{
 	display: none;
@@ -61,12 +62,11 @@ input {
 	width: 1000px;
 	overflow-y:auto;
 }
-.data-list-container h2{
+
+.list-header {
 	margin: 10px;
 }
-.data-list-container button{
-	margin-left: 10px;
-}
+
 .data-list {
 	list-style: none;
 	padding: 0;

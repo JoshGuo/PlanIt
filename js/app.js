@@ -25,17 +25,25 @@ if(localStorage.username === undefined){
 	console.log("no username... rerouting");
 	window.location.href = "login.html";
 }else {
+	console.log("username detected");
 	docRef = firestore.doc("users/" + localStorage.username);
 	docRef.get().then(function (docSnap){
 		if(!(docSnap.exists)){
+			console.log("docsnap exists? " + docSnap.exists);
 			alert("Creating new user for " + localStorage.username);
 			docRef.set({
+				name : localStorage.username
 			});
 			firestore.doc("users/" + localStorage.username + "/lists/todoList").set({
+				type : "0",
+				dateCreated : new Date()
+			}).then(function(){
+				location.reload()
 			});
 		}
 	});
 	console.log("Username: " + localStorage.username);
+	//KNOWN BUG: todoList does not pop up upon first initialization
 	initializeData();
 	console.log("Data Loaded!");
 	document.querySelector(".left-panel").style.display = "inline-block";
@@ -48,31 +56,52 @@ if(localStorage.username === undefined){
 
 function initializeData(){
 	//Loading items//
-	docRef.collection("lists/todoList/items").orderBy("dateSaved").get()
-	.then(function(querySnapshot){
-		querySnapshot.forEach(function(doc){
-			console.log(doc.data());
-			var li = document.createElement("LI");
-			li.appendChild( createItemDiv((document.createTextNode(doc.get("eventName"))), doc.ref) );
-			itemList.appendChild(li);
-		});
-		document.querySelector("h2").appendChild(document.createTextNode(activeList));
-		console.log("Items Loaded");
-	}).catch(function (error) {
-		alert("Error loading items: " + error);
-		console.log("Error loading items: " + error);
-	});
+	console.log("initializeData()");
+	displayPlan();
 	//loading plans
-	docRef.collection("lists").get()
+	docRef.collection("lists").orderBy("dateCreated").get()
 	.then(function(querySnapshot) {
 		querySnapshot.forEach(function(doc) {
 			console.log(doc.id);
 			var li = document.createElement("LI");
-			li.appendChild( document.createTextNode(doc.id));
+			li.appendChild( createPlanDiv(doc.id));
 			document.querySelector("#listul").appendChild(li);
 		});
 	}).catch(function(error){
 		console.log("Error loading plans: " + error);
+	});
+}
+
+function displayPlan() {
+	docRef.collection("lists/").doc(activeList).get()
+	.then(function(doc) {
+		var header;
+		switch (doc.get("type")) {
+			case "0":	
+				console.log("Loading a general list..." + activeList);
+				header = generateHeader(0);
+				docRef.collection("lists/" + activeList +"/items").orderBy("dateSaved").get()
+				.then(function(querySnapshot){
+					var dataList = document.createElement("UL");
+					dataList.className = "data-list";
+					document.querySelector(".list-content").appendChild(dataList);
+					querySnapshot.forEach(function(doc){
+						var li = document.createElement("LI");
+						li.appendChild( createItemDiv((document.createTextNode(doc.get("eventName"))), doc.ref) );
+						dataList.appendChild(li);
+					});
+				});
+				break;
+			case "1":
+				console.log("Loading a checklist...");
+				header = generateHeader(1);
+				break;
+			case "2":	
+				break;
+			case "3":	
+				break;
+			case "4":	
+		}
 	});
 }
 
@@ -152,7 +181,24 @@ function createItemDiv(name, itemRef){
 	return itemDiv;
 }
 
-function createPlanDiv() {
+function createPlanDiv(planName) {
+	var planDiv = document.createElement("DIV");
+	planDiv.className = "plan-div";
+	planDiv.appendChild(document.createTextNode(planName));
+	//
+	planDiv.addEventListener("click", function() {
+		if(activeList === planName) {}
+		else{
+			activeList = planName;
+			document.querySelector(".list-content").innerHTML = '';
+			displayPlan();
+		}
+	});
+	
+	return planDiv;
+}
+
+function generateHeader(){
 	
 }
 
@@ -185,15 +231,14 @@ saveItem.addEventListener("click", function() {
 	});
 	//hide new item input fields
 	document.querySelector("#newItemMenu").style.display = "none";
-	
-})
+});	
 
 newItem.addEventListener("click",function() {
 	document.querySelector("#newItemMenu").style.display = "block" ;
 	document.querySelector("#itemmenu-x").addEventListener("click", function() {
 		document.querySelector("#dataInput").value = '';
 		document.querySelector("#newItemMenu").style.display = "none" ;
-	})
+	});
 })
 
 document.querySelector("#logoutButton").addEventListener("click", function() {
@@ -204,9 +249,25 @@ document.querySelector("#logoutButton").addEventListener("click", function() {
 document.querySelector("#newPlanButton").addEventListener("click", function() {
 	document.querySelector(".new-plan-menu").style.display = "block";
 	document.querySelector("#planmenu-x").addEventListener("click", function() {
-		document.querySelector("#dataInput").value = '';
+		document.querySelector("#planInput").value = '';
 		document.querySelector(".new-plan-menu").style.display = "none" ;
-	})
+	});
 	//PLACE HOLDER FOR REAL FUNCTIONAL PLAN ADDING //
-	
 })
+
+document.querySelector("#savePlanButton").addEventListener("click", function() {		
+	const planName = document.querySelector("#planInput").value;
+	docRef.collection("lists").doc(planName).set({
+		type : document.querySelector('input[name="plantype"]:checked').value,
+		dateCreated : new Date()
+	}).then(function() {
+		var li = document.createElement("LI");
+		li.appendChild( createPlanDiv(planName) );
+		document.querySelector("#listul").appendChild(li);
+		//hide inputs
+		document.querySelector("#planInput").value = '';
+		document.querySelector(".new-plan-menu").style.display = "none" ;		
+	});	
+})
+
+

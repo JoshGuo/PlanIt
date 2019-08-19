@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-  <title>PlanIt - Home</title>
+	<title>PlanIt - Home</title>
 	<link rel="stylesheet" href="css/main.css" type="text/css">
 	<link rel="icon" href="https://img.icons8.com/cotton/64/000000/checkmark.png">
 	
@@ -17,11 +17,10 @@
 			<button id="logoutButton">Logout</button>
 			<div class="list-list-container">
 				<h3>Plans</h3>
-				---------------------------------------------------------
 				<button id="newPlanButton">New Plan</button>
 				<div class="new-plan-menu">
-					<input type="radio" name="plantype" value="0"> Plan 1
-					<input type="radio" name="plantype" value="1"> Plan 2
+					<input type="radio" name="plantype" value="0"> To-Do List
+					<input type="radio" name="plantype" value="1"> Checklist
 					<input type="radio" name="plantype" value="2"> Plan 3
 					<input type="radio" name="plantype" value="3"> Plan 4
 					<input type="radio" name="plantype" value="4"> Plan 5
@@ -35,17 +34,23 @@
 		</div>
 		
 		<div class="data-list-container">
-			<h2></h2> 
-			<button id="addItem">Add New Item</button> <br>
-			<div class="new-item-menu" id="newItemMenu">
-				<input type="radio" name="itemtype" value="0"> Item 1
-				<input type="radio" name="itemtype" value="1"> Item 2
-				<input type="radio" name="itemtype" value="2"> Item 3
-				<input type="textfield" id="dataInput" size="50" maxlength="110" placeholder="Item Name" />
-				<button id="saveInputButton">Save Item</button>
-				<button id="itemmenu-x">X</button>
+			<div class="list-header">
+				<h2> </h2> 
+				<button id="addItem">Add New Item</button> <br>
+				<div class="new-item-menu" id="newItemMenu">
+					<input type="textfield" id="dataInput" size="50" maxlength="110" placeholder="Item Name" />
+					<input type="radio" name="itemtype" value="0"> Plain
+					<input type="radio" name="itemtype" value="1"> Scheduled
+					<input type="radio" name="itemtype" value="2"> Repeating
+					<input type="radio" name="itemtype" value="3"> Incremental
+					<input type="radio" name="itemtype" value="4"> Decremental
+					<button id="saveInputButton">Save Item</button>
+					<button id="itemmenu-x">X</button>
+				</div>
 			</div>
-			<ul class="data-list" id="dataList"></ul>
+			<div class="list-content">
+			
+			</div>
 		</div>
 		
 	</div>
