@@ -14,9 +14,6 @@ firebase.initializeApp(firebaseConfig);
 var firestore = firebase.firestore();
 var activeList = "todoList";
 
-const saveItem = document.querySelector("#saveInputButton");
-const itemList = document.querySelector("#dataList");
-const newItem = document.querySelector("#addItem");
 const today = new Date();
 
 ////////////////////////////////////////////
@@ -48,6 +45,7 @@ if(localStorage.username === undefined){
 	console.log("Data Loaded!");
 	document.querySelector(".left-panel").style.display = "inline-block";
 	document.querySelector(".data-list-container").style.display = "inline-block";
+	document.querySelector('input[name="plantype"][value="0"]').checked = true;
 	document.querySelector("p").appendChild(document.createTextNode(getDay() + ", " + getMonth() + " " + today.getDate() ));
 }
 /////////////////////////////////////////////////
@@ -73,13 +71,18 @@ function initializeData(){
 }
 
 function displayPlan() {
+	document.querySelector(".list-header").innerHTML = '';
+	var div = document.querySelector('.list-content');
+	while(div.firstChild){
+		div.removeChild(div.firstChild);
+	}	
 	docRef.collection("lists/").doc(activeList).get()
 	.then(function(doc) {
 		var header;
 		switch (doc.get("type")) {
 			case "0":	
 				console.log("Loading a general list..." + activeList);
-				header = generateHeader(0);
+				generateHeader(0);
 				docRef.collection("lists/" + activeList +"/items").orderBy("dateSaved").get()
 				.then(function(querySnapshot){
 					var dataList = document.createElement("UL");
@@ -167,10 +170,10 @@ function createItemDiv(name, itemRef){
 		itemRef.delete()
 		.then(function () {
 			console.log(itemRef.id + " deleted");			
-			itemList.childNodes.forEach(function(li) {
+			document.querySelector(".data-list").childNodes.forEach(function(li) {
 				if (li.querySelector("div") == itemDiv) {
 					console.log("Removing " + itemDiv);
-					itemList.removeChild(li);
+					document.querySelector(".data-list").removeChild(li);
 				}
 			});
 		}).catch(function (error) {
@@ -190,15 +193,101 @@ function createPlanDiv(planName) {
 		if(activeList === planName) {}
 		else{
 			activeList = planName;
-			document.querySelector(".list-content").innerHTML = '';
 			displayPlan();
 		}
 	});
-	
 	return planDiv;
 }
 
-function generateHeader(){
+function generateHeader(type){	
+	var header = document.querySelector(".list-header");
+	
+	var h2 = document.createElement("h2");
+	h2.appendChild(document.createTextNode(activeList));
+	header.appendChild(h2);
+	
+	var addItem = document.createElement("BUTTON");
+	addItem.innerHTML = "Add New Item";
+	addItem.id = "addItem";
+	header.appendChild(addItem);
+	
+	var saveButton = document.createElement("Button");
+	saveButton.id = "saveInputButton";
+	saveButton.innerHTML = "Add Item";
+	
+	var xButton = document.createElement("BUTTON");
+	xButton.id = "itemmenu-x";
+	xButton.innerHTML = "X";
+	
+	switch(type){
+		case 0:
+			var newItemMenu = document.createElement("DIV");
+			newItemMenu.className = "new-item-menu";
+			newItemMenu.id = "newItemMenu";
+			
+			var name = document.createElement("INPUT");
+			name.setAttribute("type","text");
+			name.setAttribute("id","dataInput");
+			name.setAttribute("size","50");
+			name.setAttribute("maxlength","110");
+			name.setAttribute("placeholder","Item Name");
+			newItemMenu.appendChild(name);
+			
+			var types = ["Default","Scheduled","Repeating","Incremental","Decremental"];
+			for(i = 0; i < 5; i++) {
+				var radioButton = document.createElement("input");
+				radioButton.setAttribute("type","radio");
+				radioButton.setAttribute("name","itemtype");
+				radioButton.setAttribute("value","" + i);
+				newItemMenu.appendChild(radioButton);
+				newItemMenu.appendChild(document.createTextNode(types[i]));	
+			}
+			newItemMenu.appendChild(document.createElement("BR"));
+			
+			newItemMenu.appendChild(saveButton);
+			saveButton.addEventListener("click", function() {
+				docRef.collection("lists/" + activeList + "/items").add({
+					eventName : name.value,
+					type : document.querySelector('input[name="itemtype"]:checked').value,
+					dateSaved : new Date(),
+				}).then(function(itemRef) {
+					console.log("Saved to " + activeList + "! " + itemRef.id);
+					var li = document.createElement("LI");
+					console.log(name.value);
+					li.appendChild( createItemDiv(document.createTextNode(name.value),itemRef)); 
+					document.querySelector(".data-list").appendChild(li);
+					name.value = '';
+				}).catch(function (error) {
+					console.log("error " + error);
+				});
+				document.querySelector('input[name="itemtype"][value="0"]').checked = true;
+				document.querySelector("#newItemMenu").style.display = "none";
+			});	
+			
+			newItemMenu.appendChild(xButton);
+			
+			header.appendChild(newItemMenu);
+			
+			addItem.addEventListener("click", function() {
+				document.querySelector('input[name="itemtype"][value="0"]').checked = true;
+				newItemMenu.style.display = "block" ;
+				xButton.addEventListener("click", function() {
+					name.value = '';
+					document.querySelector('input[name="itemtype"][value="0"]').checked = true;
+					newItemMenu.style.display = "none" ;
+				});
+			});
+			break;
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			
+	}
+
 	
 }
 
@@ -214,33 +303,7 @@ function getMonth() {
 
 //EVENT LISTENERS//////////////////////////////
 
-saveItem.addEventListener("click", function() {
-	var itemInput = document.querySelector("#dataInput");
-	const name = itemInput.value;
-	itemInput.value = '';
-	docRef.collection("lists/" + activeList + "/items").add({
-		eventName : name,
-		dateSaved : new Date()
-	}).then(function(itemRef) {
-		console.log("Saved to " + activeList + "! " + itemRef.id);
-		var li = document.createElement("LI");
-		li.appendChild( createItemDiv(document.createTextNode(name), itemRef)); 
-		itemList.appendChild(li);
-	}).catch(function (error) {
-		console.log("error " + error);
-	});
-	//hide new item input fields
-	document.querySelector("#newItemMenu").style.display = "none";
-});	
-
-newItem.addEventListener("click",function() {
-	document.querySelector("#newItemMenu").style.display = "block" ;
-	document.querySelector("#itemmenu-x").addEventListener("click", function() {
-		document.querySelector("#dataInput").value = '';
-		document.querySelector("#newItemMenu").style.display = "none" ;
-	});
-})
-
+ 
 document.querySelector("#logoutButton").addEventListener("click", function() {
 	localStorage.removeItem("username");
 	window.location.href = "login.html";
@@ -249,10 +312,10 @@ document.querySelector("#logoutButton").addEventListener("click", function() {
 document.querySelector("#newPlanButton").addEventListener("click", function() {
 	document.querySelector(".new-plan-menu").style.display = "block";
 	document.querySelector("#planmenu-x").addEventListener("click", function() {
+		document.querySelector('input[name="plantype"][value="0"]').checked = true;
 		document.querySelector("#planInput").value = '';
 		document.querySelector(".new-plan-menu").style.display = "none" ;
 	});
-	//PLACE HOLDER FOR REAL FUNCTIONAL PLAN ADDING //
 })
 
 document.querySelector("#savePlanButton").addEventListener("click", function() {		
@@ -265,6 +328,7 @@ document.querySelector("#savePlanButton").addEventListener("click", function() {
 		li.appendChild( createPlanDiv(planName) );
 		document.querySelector("#listul").appendChild(li);
 		//hide inputs
+		document.querySelector('input[name="plantype"][value="0"]').checked = true;
 		document.querySelector("#planInput").value = '';
 		document.querySelector(".new-plan-menu").style.display = "none" ;		
 	});	
