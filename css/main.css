@@ -58,8 +58,8 @@ input {
 	display: none;
 	border-style: solid;
 	border-width: 2px;
-	height: 700px;
-	width: 1000px;
+	height: 50%;
+	width: 65%;
 	overflow-y:auto;
 }
 
