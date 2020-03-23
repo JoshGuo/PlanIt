@@ -10,13 +10,21 @@ class ListLinks extends React.Component {
         }
     }
 
+    changeBackground = (e) => {
+        e.target.className = "collection-item blue";
+    }
+
+    changeBackgroundPurp = (e) => {
+        e.target.className = "collection-item deep-purple";
+    }
+
     render() {
         console.log("\tListLinks Rendered")
         return(
             <div id='list_of_lists'>
                 <Collection>
                     {this.state.lists.map((list) => (
-                        <CollectionItem className="deep-purple" style={{padding: "0px"}} href="#">
+                        <CollectionItem className="deep-purple" style={{padding: "0px"}} href="#" onMouseOver={this.changeBackground} onMouseLeave={this.changeBackgroundPurp}>
                             <ListLink name={list} changeListCallback={this.props.changeListCallback}/>
                         </CollectionItem>
                     ))}

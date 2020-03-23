@@ -23,6 +23,7 @@ class List extends React.Component {
                 <ListContent
                     type={this.props.type}
                     items={this.state.items}
+                    deleteCallback={this.props.deleteCallback}
                 />
             </div>
         );
