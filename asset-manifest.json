@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/planit/static/css/main.4b42d0df.chunk.css",
+    "main.js": "/planit/static/js/main.c5bae976.chunk.js",
+    "main.js.map": "/planit/static/js/main.c5bae976.chunk.js.map",
+    "runtime-main.js": "/planit/static/js/runtime-main.786252dc.js",
+    "runtime-main.js.map": "/planit/static/js/runtime-main.786252dc.js.map",
+    "static/js/2.b3118a97.chunk.js": "/planit/static/js/2.b3118a97.chunk.js",
+    "static/js/2.b3118a97.chunk.js.map": "/planit/static/js/2.b3118a97.chunk.js.map",
+    "index.html": "/planit/index.html",
+    "precache-manifest.1745721c5a232268d6317eb2bf0f7796.js": "/planit/precache-manifest.1745721c5a232268d6317eb2bf0f7796.js",
+    "service-worker.js": "/planit/service-worker.js",
+    "static/css/main.4b42d0df.chunk.css.map": "/planit/static/css/main.4b42d0df.chunk.css.map",
+    "static/js/2.b3118a97.chunk.js.LICENSE.txt": "/planit/static/js/2.b3118a97.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.786252dc.js",
+    "static/js/2.b3118a97.chunk.js",
+    "static/css/main.4b42d0df.chunk.css",
+    "static/js/main.c5bae976.chunk.js"
+  ]
+}
