@@ -11,7 +11,7 @@ class ListLinks extends React.Component {
     }
 
     changeBackground = (e) => {
-        e.target.className = "collection-item blue";
+        e.target.className = "collection-item deep-purple darken-3";
     }
 
     changeBackgroundPurp = (e) => {

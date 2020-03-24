@@ -1,31 +1,56 @@
 import React from 'react';
+import { Button, Icon } from 'react-materialize';
 
 class ListItem extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            iconTextColor: "#505050"
+        }
+    }
 
     handleCompletedTask = () => {
         console.log("handleCompletedTask");
         this.props.deleteCallback(this.props.id, true);
     }
 
+    changeColor = (e) => {
+        console.log("handleCheckHover");
+        this.setState({
+            iconClass: "white",
+            iconTextColor: "#00FF7F"
+        })
+    }
+
+    changeColorBack = (e) => {
+        console.log("handleCheckHover");
+        this.setState({
+            iconTextColor: "#505050"
+        })
+    }
+
     render() {
         let styleMap = {
-            margin: "0rem 0rem 10px 0rem",
-            padding: "0 0 .25rem 0",
+            margin: "0rem 0rem 15px 0rem",
+            padding: "0 0 0rem 0",
             borderStyle: "solid",
             borderRadius: "0px 0px 5px 0px",
-            borderWidth: "0px 1px 1px 0px",
+            borderWidth: "0px 0px 1px 0px",
         };
-
-        switch(this.props.type) {   
+        switch (this.props.type) {
             case 0: return (
                 <div style={styleMap}>
-                    <div style={{margin: "0 10px", display: "inline"}}>
-                        <button style={{height: "1rem", borderRadius:".5rem"}} onClick={this.handleCompletedTask}></button>
+                    <div style={{ margin: "0px 5px", padding:"0px", display: "inline" }}>
+                        <a href="#" style={{ color: this.state.iconTextColor, margin:"10px" }} onMouseOver={this.changeColor} onMouseLeave={this.changeColorBack} onClick={this.handleCompletedTask}>
+                            <Icon className="grey darken-4">check</Icon>
+                        </a>
                     </div>
-                    <p style={{display: "inline", fontSize: "14pt"}}>{this.props.name}</p>
+                    <div style={{ display: "inline", fontSize: "16pt", overflow: "auto" }}>
+                        {this.props.name}
+                    </div>
                 </div>
             );
-            default: return(
+            default: return (
                 <div style={styleMap}>Unsupported Item Type</div>
             );
         }

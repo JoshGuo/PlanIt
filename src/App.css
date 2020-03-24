@@ -3,3 +3,7 @@ body {
     color:whitesmoke;
     font-family: 'Comfortaa', cursive;
 }
+
+.hidden {
+    display: none;
+}

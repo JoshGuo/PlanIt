@@ -142,6 +142,26 @@ class App extends React.Component { //Will have to refactor to support lists vs 
         });
     }
 
+    createDocument = (itemName, isItem) => {
+        if(isItem) {
+            let item = {
+                dateCreated: new Date(),
+                name: itemName,
+                type: 0
+            }
+            db.collection("users").doc(this.state.user).collection("lists").doc(this.state.activeList).collection("items").add(item)
+                .then((docRef) => {
+                    console.log("Created new item");
+                    item.id = docRef.id;
+                    let itemArray = this.state.listContents;
+                    itemArray[this.state.lists.indexOf(this.state.activeList)].push(item);
+                    this.setState({
+                        listContents : itemArray
+                    });
+                });
+        }
+    }
+
     deleteDocument = (id, isItem) => {
         if(isItem) {
             db.collection("users").doc(this.state.user).collection("lists").doc(this.state.activeList).collection("items").doc(id).delete()
@@ -190,6 +210,7 @@ class App extends React.Component { //Will have to refactor to support lists vs 
                                 items={this.state.listContents[this.state.lists.indexOf(this.state.activeList)]}
                                 type={this.state.listTypes[this.state.lists.indexOf(this.state.activeList)]}
                                 deleteCallback={this.deleteDocument}
+                                createCallback={this.createDocument}
                             />
                         </Col>
                     </Row>
