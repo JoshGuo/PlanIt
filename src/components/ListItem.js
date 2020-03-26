@@ -31,7 +31,7 @@ class ListItem extends React.Component {
 
     render() {
         let styleMap = {
-            margin: "0rem 0rem 15px 0rem",
+            margin: "0rem 0rem 10px 0rem",
             padding: "0 0 0rem 0",
             borderStyle: "solid",
             borderRadius: "0px 0px 5px 0px",
@@ -40,12 +40,12 @@ class ListItem extends React.Component {
         switch (this.props.type) {
             case 0: return (
                 <div style={styleMap}>
-                    <div style={{ margin: "0px 5px", padding:"0px", display: "inline" }}>
+                    <div style={{display: "inline", position: "absolute" }}>
                         <a href="#" style={{ color: this.state.iconTextColor, margin:"10px" }} onMouseOver={this.changeColor} onMouseLeave={this.changeColorBack} onClick={this.handleCompletedTask}>
                             <Icon className="grey darken-4">check</Icon>
                         </a>
                     </div>
-                    <div style={{ display: "inline", fontSize: "16pt", overflow: "auto" }}>
+                    <div style={{display: "inline", fontSize: "15pt", margin:"0 0 0 3rem"}}>
                         {this.props.name}
                     </div>
                 </div>

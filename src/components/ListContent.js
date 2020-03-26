@@ -9,6 +9,12 @@ class ListContent extends React.Component {
             addingNew : false
         }
     }
+    
+    componentDidUpdate(prevProps) {
+        if(prevProps.items !== this.props.items){
+            this.closeNewItemMenu();
+        }
+    }
 
     handleNewItem = () => {
         console.log("handleNewItem");
@@ -24,7 +30,8 @@ class ListContent extends React.Component {
     }
 
     closeNewItemMenu = () => {
-        document.getElementById("new-item-name").value = "";
+        let input = document.getElementById("new-item-name");
+        if(input !== null) input.value = "";
         this.setState({
             addingNew : false
         });
@@ -51,8 +58,8 @@ class ListContent extends React.Component {
         switch (this.props.type) {
             case 0: 
                 return (
-                    <CardPanel className="grey darken-3" style={{ padding: "5px 0px 5px 0px" }}>
-                        <div>
+                    <CardPanel className="grey darken-3" style={{ padding: "1px 0px 5px 0px" }}>
+                        <div style={{padding:"0px"}}>
                             <ul id="list-items">
                                 {this.props.items.map((item) => (
                                     <li>
@@ -85,7 +92,7 @@ class ListContent extends React.Component {
 
                             </Button>
                         </div>
-                        <div class={classButton}style={{ margin: "0 0 5px 5px" }}>
+                        <div class={classButton}style={{ margin: "0 0 5px 6px" }}>
                             <Button
                                 className="light-blue"
                                 floating
