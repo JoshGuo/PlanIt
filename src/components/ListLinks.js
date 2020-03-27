@@ -1,12 +1,13 @@
 import React from 'react';
-import {Collection, CollectionItem} from 'react-materialize';
+import {Collection, CollectionItem, Modal, Button} from 'react-materialize';
 import ListLink from './ListLink.js'
 
 class ListLinks extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            lists : this.props.lists
+            lists : this.props.lists,
+            addingNewList : false
         }
     }
 
@@ -26,6 +27,18 @@ class ListLinks extends React.Component {
         e.target.className = "collection-item grey darken-2";
     }
 
+    openNewListModal = () => {
+        this.setState({
+            addingNewList : true
+        });
+    }
+
+    closeNewListModal = () => {
+        this.setState({
+            addingNewList : false
+        })
+    }
+
     render() {
         console.log("\tListLinks Rendered")
         return(
@@ -36,12 +49,20 @@ class ListLinks extends React.Component {
                             <ListLink name={list} changeListCallback={this.props.changeListCallback}/>
                         </CollectionItem>
                     ))}
-                    <CollectionItem className="grey darken-2" style={{padding: "0px", color:"#B0B0B0"}} href="#" onMouseOver={this.changeBackgroundGreen} onMouseLeave={this.changeBackgroundGrey}>
-                        <div style={{margin:"0 auto", padding:"10px"}}>
+                    <CollectionItem className="grey darken-2" style={{padding: "0px", color:"#B0B0B0"}} href="#" onClick={this.openNewListModal} onMouseOver={this.changeBackgroundGreen} onMouseLeave={this.changeBackgroundGrey}>
+                        <div id="new-list-button" style={{margin:"0 auto", padding:"10px"}}>
                             + Create New List
                         </div>
                     </CollectionItem>
                 </Collection>
+                <Modal
+                    id="new-list-modal"
+                    className="grey darken-2"
+                    header="Create a New List"
+                    open={this.state.addingNewList}
+                >
+                    Name of your new list
+                </Modal>
             </div>
         );
     }

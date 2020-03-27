@@ -15,7 +15,6 @@ class ListItem extends React.Component {
     }
 
     changeColor = (e) => {
-        console.log("handleCheckHover");
         this.setState({
             iconClass: "white",
             iconTextColor: "#00FF7F"
@@ -23,7 +22,6 @@ class ListItem extends React.Component {
     }
 
     changeColorBack = (e) => {
-        console.log("handleCheckHover");
         this.setState({
             iconTextColor: "#505050"
         })
