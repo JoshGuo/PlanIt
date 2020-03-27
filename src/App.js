@@ -85,6 +85,7 @@ class App extends React.Component { //Will have to refactor to support lists vs 
                 break;
             case 6: fullDate += "Saturday";
                 break;
+            default: fullDate += "dayError";
         }
 
         fullDate += ", "
@@ -114,6 +115,7 @@ class App extends React.Component { //Will have to refactor to support lists vs 
                 break;
             case 11: fullDate += "December";
                 break;
+            default: fullDate += "monthError";
         }
 
         fullDate += " " + dayNum;
@@ -142,7 +144,7 @@ class App extends React.Component { //Will have to refactor to support lists vs 
         });
     }
 
-    createDocument = (itemName, isItem) => {
+    createDocument = (itemName, isItem, itemType) => {
         if(isItem) {
             let item = {
                 dateCreated: new Date(),
@@ -157,6 +159,23 @@ class App extends React.Component { //Will have to refactor to support lists vs 
                     itemArray[this.state.lists.indexOf(this.state.activeList)].push(item);
                     this.setState({
                         listContents : itemArray
+                    });
+                });
+        } else {
+            db.collection("users").doc(this.state.user).collection("lists").doc(itemName).set({type:itemType, key: this.state.lists.length})
+                .then(() => {
+                    console.log("Creating new list");
+                    let listArray = this.state.lists;
+                    let listTypeArray = this.state.listTypes;
+                    let listContentsArray = this.state.listContents;
+                    listArray.push(itemName);
+                    listTypeArray.push(itemType);
+                    listContentsArray.push([]);
+                    this.setState({
+                        lists : listArray,
+                        listTypes : listTypeArray,
+                        listContents : listContentsArray,
+                        activeList : itemName
                     });
                 });
         }
@@ -202,6 +221,7 @@ class App extends React.Component { //Will have to refactor to support lists vs 
                             <ListLinks
                                 lists={this.state.lists}
                                 changeListCallback={this.updateActiveList}
+                                createCallback={this.createDocument}
                             />
                         </Col>
                         <Col s={9}>

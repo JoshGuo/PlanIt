@@ -56,7 +56,7 @@ class ListContent extends React.Component {
 
         switch (this.props.type) {
             case 0: 
-                if (this.props.items.length === 0)
+                if (this.props.items.length === 0)  //Empty list
                     return (
                         <CardPanel className="grey darken-3" style={{ padding: "5px 0px 5px 0px" }}>
                             <div style={styleMap} class={classInput}>
@@ -66,15 +66,16 @@ class ListContent extends React.Component {
                                     className="green"
                                     icon={<Icon>check</Icon>}
                                     style={{margin: "0 0 5px 5px"}}
-                                    onClick={this.handleCreateNewItem}>
+                                    onClick={this.handleCreateNewItem}
+                                    >
                                 </Button>
                                 <Button 
                                     small 
                                     className="red"
                                     icon={<Icon>close</Icon>}
                                     style={{margin: "0 0 5px 5px"}}
-                                    onClick={this.closeNewItemMenu}>
-
+                                    onClick={this.closeNewItemMenu}
+                                    >
                                 </Button>
                             </div>
                             <div class={classButton}style={{ margin: "0 0 5px 6px" }}>
@@ -90,7 +91,7 @@ class ListContent extends React.Component {
                             </div>
                         </CardPanel>
                     );
-                else
+                else    //Not an empty list
                     return (
                         <CardPanel className="grey darken-3" style={{ padding: "1px 0px 5px 0px" }}>
                             <div style={{padding:"0px"}}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Collection, CollectionItem, Modal, Button} from 'react-materialize';
+import {Collection, CollectionItem, Modal, Button, Icon} from 'react-materialize';
 import ListLink from './ListLink.js'
 
 class ListLinks extends React.Component {
@@ -34,9 +34,25 @@ class ListLinks extends React.Component {
     }
 
     closeNewListModal = () => {
+        document.getElementById("new-list-name").value = "";
         this.setState({
             addingNewList : false
         })
+    }
+
+    createNewList = () => {
+        console.log("createNewList");
+        let name = document.getElementById("new-list-name").value;
+        //Later must display error message if name is empty or if name is the same as a previous list (I could make this allowed, but would require restructuring of App.js and storage)
+        if(name.length !== 0){
+            //if name is unique
+            this.props.createCallback(name, false, 0);
+            this.closeNewListModal();
+            //else display error
+        }
+        else{
+            //display error
+        }
     }
 
     render() {
@@ -58,10 +74,20 @@ class ListLinks extends React.Component {
                 <Modal
                     id="new-list-modal"
                     className="grey darken-2"
-                    header="Create a New List"
+                    options={{
+                        onCloseEnd: this.closeNewListModal
+                    }}
+                    style={{width: "15%"}}
+                    header="New List"
                     open={this.state.addingNewList}
                 >
-                    Name of your new list
+                    <div style={{display : "inline", margin: "0 8%"}}>
+                        <input id="new-list-name" type="text" maxLength="20"placeholder="List Name" style={{display : "inline", color: "white", width:"80%"}}/>
+                        <div style={{display : "inline", margin: "0 2rem"}}>
+                        <Button style={{display : "inline", margin: ".5rem"}} icon={<Icon>check</Icon>} small onClick={this.createNewList}></Button>
+                        <Button style={{display : "inline", margin: ".5rem"}} icon={<Icon>close</Icon>} small onClick={this.closeNewListModal}></Button>
+                        </div>
+                    </div>
                 </Modal>
             </div>
         );

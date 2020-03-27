@@ -7,3 +7,7 @@ body {
 .hidden {
     display: none;
 }
+
+.modal-footer {
+    display: none;
+}
